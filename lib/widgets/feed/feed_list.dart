@@ -16,7 +16,8 @@ class _FeedListState extends State<FeedList> {
   ScrollController _scroll = new ScrollController();
 
   _fetchData() async {
-    final response = await http.get("https://api.thecatapi.com/v1/images/search");
+    final response =
+        await http.get("https://api.thecatapi.com/v1/images/search");
     if (response.statusCode == 200) {
       print(jsonDecode(response.body)[0]['url']);
       setState(() {
@@ -56,13 +57,12 @@ class _FeedListState extends State<FeedList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        controller: _scroll,
-        itemCount: imageList.length,
-        itemBuilder: (context, i) {
-          return feedItem(context, i, imageList);
-        },
+      controller: _scroll,
+      itemCount: imageList.length,
+      itemBuilder: (context, i) {
+        return feedItem(context, i, imageList);
+      },
     );
   }
-
-
 }
+
