@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import "package:eidoof/screens/home.dart";
+import "package:eidoof/screens/getting_started.dart";
 import "package:eidoof/screens/login.dart";
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -8,10 +9,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Home.route:
       return MaterialPageRoute(
           builder: (context) => Home(user: settings.arguments));
+    case GettingStarted.route:
+      return MaterialPageRoute(builder: (context) => GettingStarted());
     case Login.route:
       return MaterialPageRoute(builder: (context) => Login());
     default:
-      return MaterialPageRoute(builder: (context) => Login());
+      return MaterialPageRoute(builder: (context) => GettingStarted());
   }
 }
 
@@ -19,7 +22,6 @@ void main() {
   runApp(MaterialApp(
     title: "eidoof",
     onGenerateRoute: generateRoute,
-    initialRoute: Login.route,
+    initialRoute: GettingStarted.route,
   ));
 }
-
