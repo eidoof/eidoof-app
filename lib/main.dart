@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:eidooffrontend/pages/new_recipe/new_recipe_page.dart';
+import 'package:eidooffrontend/sidemenu/sidemenu.dart';
+import 'package:eidooffrontend/topbar/topbar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,11 +22,27 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+
+  Widget currentPage;
+  Map pages;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
+    pages = {
+      "feed"       : FeedList(),
+      "new_recipe" : NewRecipePage(),
+    };
+
+    currentPage = pages["feed"];
+  }
+
+  callback(whichPage) {
+    print("callback triggered!");
+    setState(() {
+      currentPage = this.pages[whichPage];
+    });
   }
 
   @override
@@ -34,9 +53,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(),
-      body: FeedList()
+      appBar: generateBar(),
+      body: currentPage,
+      drawer: SideMenu(callback),
     );
   }
 }
