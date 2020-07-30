@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:eidooffrontend/pages/new_recipe/new_recipe_page.dart';
+import 'package:eidooffrontend/pages/new_recipe_page.dart';
 import 'package:eidooffrontend/sidemenu/sidemenu.dart';
 import 'package:eidooffrontend/topbar/topbar.dart';
 import 'package:flutter/material.dart';
