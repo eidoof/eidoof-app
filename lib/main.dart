@@ -22,6 +22,6 @@ void main() {
   runApp(MaterialApp(
     title: "eidoof",
     onGenerateRoute: generateRoute,
-    initialRoute: Home.route,
+    initialRoute: GettingStarted.route,
   ));
 }

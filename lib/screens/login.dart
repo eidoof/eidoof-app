@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:eidoof/widgets/login_form.dart";
 
 class Login extends StatelessWidget {
   static const String route = "/login";
@@ -11,7 +12,9 @@ class Login extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[],
+            children: <Widget>[
+              LoginForm(),
+            ],
           )),
     );
   }

@@ -1,10 +1,10 @@
 class UserModel {
+  UserModel({this.email, this.username, this.token, this.refreshToken});
+
   final String email;
   final String username;
   final String token;
   final String refreshToken;
-
-  UserModel({this.email, this.username, this.token, this.refreshToken});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(

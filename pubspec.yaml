@@ -32,6 +32,9 @@ dependencies:
   # Store json web tokens securely
   flutter_secure_storage: ^3.3.3
 
+  # Email validation for login/signup forms
+  email_validator: ^1.0.0
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
