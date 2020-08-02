@@ -41,6 +41,7 @@ class _GettingStartedState extends State<GettingStarted> {
   @override
   void dispose() {
     super.dispose();
+    _timer.cancel();
     _pageController.dispose();
   }
 
@@ -69,19 +70,8 @@ class _GettingStartedState extends State<GettingStarted> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                       color: Theme.of(context).primaryColor,
-                      onPressed: () {}),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text("Have an account?",
-                            style: Theme.of(context).textTheme.subtitle2),
-                        FlatButton(
-                            child: Text("Login",
-                                style: Theme.of(context).textTheme.subtitle2),
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(Login.route);
-                            }),
-                      ])
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed(Login.route)),
                 ])
           ]),
         ));
