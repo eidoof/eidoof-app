@@ -3,13 +3,12 @@ import "package:eidoof/widgets/feed/feed_list.dart";
 import "package:eidoof/screens/new_recipe_page.dart";
 import "package:eidoof/widgets/side_menu.dart";
 import "package:eidoof/widgets/app_bar.dart";
+import "package:eidoof/services/api_client.dart";
 import "package:eidoof/models/user.dart";
+import "package:eidoof/screens/getting_started.dart";
 
 class Home extends StatefulWidget {
   static const String route = "/";
-
-  final UserModel user;
-  Home({Key key, @required this.user}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -18,6 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Widget currentPage;
   Map pages;
+  UserModel _user;
 
   @override
   void initState() {

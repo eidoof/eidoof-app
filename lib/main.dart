@@ -7,8 +7,7 @@ import "package:eidoof/screens/login.dart";
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case Home.route:
-      return MaterialPageRoute(
-          builder: (context) => Home(user: settings.arguments));
+      return MaterialPageRoute(builder: (context) => Home());
     case GettingStarted.route:
       return MaterialPageRoute(builder: (context) => GettingStarted());
     case Login.route:
@@ -22,6 +21,6 @@ void main() {
   runApp(MaterialApp(
     title: "eidoof",
     onGenerateRoute: generateRoute,
-    initialRoute: GettingStarted.route,
+    home: GettingStarted(),
   ));
 }
