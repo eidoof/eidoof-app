@@ -25,6 +25,7 @@ class _GettingStartedState extends State<GettingStarted> {
 
     // TODO Check if we are authenticated
     authenticate().then((UserModel user) {
+      print("huh");
       // TODO We are authenticated so go to the home view
       Navigator.popAndPushNamed(context, Home.route);
     }).catchError((err) {

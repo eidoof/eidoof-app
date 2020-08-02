@@ -4,10 +4,10 @@ import 'dart:io';
 import "package:flutter_secure_storage/flutter_secure_storage.dart";
 import "package:http/http.dart" as http;
 import "package:eidoof/models/user.dart";
-import "package:eidoof/models/user_in_login.dart";
 
 // TODO This should not be hardcoded
-const baseUrl = "http://localhost";
+// IP for using android-emulator
+const baseUrl = "http://10.0.2.2:80";
 
 final storage = FlutterSecureStorage();
 
@@ -36,7 +36,7 @@ Future<UserModel> authenticate() async {
   print("Response body: ${response.body}");
 
   // TODO Handle any other status-codes that we could get from the /user endpoint
-  if (response.statusCode != 200) return null;
+  if (response.statusCode != 200) throw Exception(response.body);
 
   // If we're authenticated, the user model shoud be returned in the response body
   final responseJson = json.decode(response.body);
@@ -50,7 +50,7 @@ Future<UserModel> login(UserInLoginModel userInLogin) async {
   final url = "$baseUrl/login";
   final response = await http.post(url,
       headers: {HttpHeaders.contentTypeHeader: "application/json"},
-      body: userInLogin.toJson().toString());
+      body: userInLogin.toJson());
 
   // TODO Proper logging
   print("Response status: ${response.statusCode}");
@@ -62,7 +62,18 @@ Future<UserModel> login(UserInLoginModel userInLogin) async {
   // If we're authenticated, the user model shoud be returned in the response body
   final responseJson = json.decode(response.body);
   final user = UserModel.fromJson(responseJson);
-  print("User model: $user");
+
+  // TODO Put the tokens into secure storage
+  // TODO Return a UserProfileModel (which just contains the email and username fields)
 
   return user;
+}
+
+Future<void> register(UserInRegisterModel userInRegister) async {
+  final url = "$baseUrl/register";
+  final response = await http.post(url,
+      headers: {HttpHeaders.contentTypeHeader: "application/json"},
+      body: userInRegister.toJson());
+
+  if (response.statusCode != 201) throw Exception(response.body);
 }
