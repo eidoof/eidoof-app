@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:email_validator/email_validator.dart";
 import "package:eidoof/models/user.dart";
 import "package:eidoof/services/api_client.dart";
+import "package:eidoof/widgets/snack_bar.dart";
 
 class LoginForm extends StatefulWidget {
   @override
@@ -50,12 +51,29 @@ class _LoginFormState extends State<LoginForm> {
                   color: Theme.of(context).primaryColor,
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      Scaffold.of(context).showSnackBar(
-                          SnackBar(content: Text("Logging in...")));
+                      displaySnackBar(context, "Logging in...");
+
                       // TODO Better error handling
                       login(UserInLoginModel(_email.text, _password.text))
-                          .then((user) => print(user))
-                          .catchError((err) => print(err));
+                          .then((user) {
+                        print(user);
+                        // TODO Store the credentials in secret storage if the
+                        // remember box is ticked
+                      }).catchError((err) {
+                        switch (err) {
+                          case InvalidCredentials:
+                            displaySnackBar(
+                                context, "Incorrect username/password");
+                            break;
+                          case ServerError:
+                            displaySnackBar(context,
+                                "Internal server error, try again later");
+                            break;
+                          default:
+                            displaySnackBar(context, "Login failed");
+                            break;
+                        }
+                      });
                     }
                   }),
             ]))));
