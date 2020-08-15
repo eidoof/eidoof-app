@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import "package:eidoof/screens/home.dart";
 import "package:eidoof/screens/getting_started.dart";
@@ -18,6 +19,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 }
 
 void main() {
+  //debugPaintSizeEnabled = true;
   runApp(MaterialApp(
     title: "eidoof",
     onGenerateRoute: generateRoute,
