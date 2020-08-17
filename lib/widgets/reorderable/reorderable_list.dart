@@ -55,8 +55,8 @@ class _ReorderableList extends State<ReorderableList> {
     return ImplicitlyAnimatedReorderableList<Widget>(
       items: _rows,
       onReorderStarted: (item, from) {
-        print("triggered!");
         setState(() {
+          print("DISABLED");
           widget.notifyParent();
         });
       },
@@ -65,6 +65,7 @@ class _ReorderableList extends State<ReorderableList> {
         // Remember to update the underlying data when the list has been
         // reordered.
         setState(() {
+          print("ENABLED");
           widget.notifyParent();
           _rows
             ..clear()
@@ -73,7 +74,7 @@ class _ReorderableList extends State<ReorderableList> {
       },
       itemBuilder: (context, itemAnimation, item, index) {
         // Each item must be wrapped in a Reorderable widget.
-        return ReorderableListItem(context, item, itemAnimation);
+        return reorderableListItem(context, item, itemAnimation);
       },
       // Since version 0.2.0 you can also display a widget
       // before the reorderable items...

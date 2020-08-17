@@ -39,15 +39,12 @@ class _NewRecipePageState extends State<NewRecipePage> {
 
   void toggleScroll() {
     setState(() {
-      print("EEEEEEEEEEEEEEEEEEE");
       _isPageScrollable = !_isPageScrollable;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    _isPageScrollable = true;
 
     print(_isPageScrollable);
 
