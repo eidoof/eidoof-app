@@ -26,6 +26,9 @@ dependencies:
 
   http: ^0.12.2
 
+  # for lists and other collections that you can rearrange by drag-and-drop
+  implicitly_animated_reorderable_list: ^0.2.3
+
   # Pick images from gallery or camera for iOS and Android
   image_picker: ^0.6.7
 

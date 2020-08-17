@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:eidoof/widgets/reorderable/reorderable_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:image_picker/image_picker.dart';
+
 
 class NewRecipePage extends StatefulWidget {
   //Function callback;
@@ -16,7 +18,12 @@ class NewRecipePage extends StatefulWidget {
 
 class _NewRecipePageState extends State<NewRecipePage> {
   File _image;
+  var _isPageScrollable = true;
   final picker = ImagePicker();
+
+
+
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -29,13 +36,27 @@ class _NewRecipePageState extends State<NewRecipePage> {
     });
   }
 
+
+  void toggleScroll() {
+    setState(() {
+      print("EEEEEEEEEEEEEEEEEEE");
+      _isPageScrollable = !_isPageScrollable;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    _isPageScrollable = true;
+
+    print(_isPageScrollable);
+
     return Form(
       key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
+        physics: _isPageScrollable ? AlwaysScrollableScrollPhysics() :  NeverScrollableScrollPhysics(),
+        //mainAxisSize: MainAxisSize.max,
+        //crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Center(
               child: Stack(alignment: Alignment.center, children: <Widget>[
@@ -106,6 +127,7 @@ class _NewRecipePageState extends State<NewRecipePage> {
               return null;
             },
           ),
+          new ReorderableList( notifyParent: toggleScroll ),
           Center(
               child: Padding(
             padding: const EdgeInsets.only(
