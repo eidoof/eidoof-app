@@ -24,6 +24,7 @@ class ReorderableList extends StatefulWidget {
 
 class _ReorderableList extends State<ReorderableList> {
   List<Widget> _rows;
+  List<String> _steps;
   var max_idx;
 
 
@@ -32,19 +33,36 @@ class _ReorderableList extends State<ReorderableList> {
   void initState() {
     super.initState();
     _rows = List<Widget>();
+    _steps = List<String>();
 
     for (max_idx = 0; max_idx < 6; max_idx++) {
-      _rows.add(Text("aaa"));
+      var elem = new Text("");
+      _rows.add(elem);
+      _steps.add("");
     }
+  }
+
+  void updateText(idx, text) {
+    setState(() {
+      _steps[idx] = text;
+      print(idx);
+      print(text);
+      print("-----");
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_rows);
+    //print(_rows);
     void _onReorder(int oldIndex, int newIndex) {
       setState(() {
+
         Widget row = _rows.removeAt(oldIndex);
         _rows.insert(newIndex, row);
+
+        String str = _steps.removeAt(oldIndex);
+        _steps.insert(newIndex, str);
+
       });
     }
     // Make sure there is a scroll controller attached to the scroll view that contains ReorderableSliverList.
@@ -56,7 +74,7 @@ class _ReorderableList extends State<ReorderableList> {
       items: _rows,
       onReorderStarted: (item, from) {
         setState(() {
-          print("DISABLED");
+          //print("DISABLED");
           widget.notifyParent();
         });
       },
@@ -64,8 +82,9 @@ class _ReorderableList extends State<ReorderableList> {
       onReorderFinished: (item, from, to, newItems) {
         // Remember to update the underlying data when the list has been
         // reordered.
+        _onReorder(from, to);
         setState(() {
-          print("ENABLED");
+          //print("ENABLED");
           widget.notifyParent();
           _rows
             ..clear()
@@ -74,7 +93,7 @@ class _ReorderableList extends State<ReorderableList> {
       },
       itemBuilder: (context, itemAnimation, item, index) {
         // Each item must be wrapped in a Reorderable widget.
-        return reorderableListItem(context, item, itemAnimation);
+        return reorderableListItem(context, _steps[index], itemAnimation, index, updateText, item);
       },
       // Since version 0.2.0 you can also display a widget
       // before the reorderable items...

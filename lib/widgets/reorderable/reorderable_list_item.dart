@@ -14,15 +14,32 @@ import 'package:implicitly_animated_reorderable_list/transitions.dart';
 
 class ReorderableListItemContent extends StatefulWidget {
 
-  //ReorderableListItemContent(this.context, this.item, this.itemAnimation);
+  var index;
+  var content;
+
+  final Function(int, String) notifyParent;
+  ReorderableListItemContent(this.notifyParent, this.index, this.content);
 
   @override
   _ReorderableListItemContentState createState() => _ReorderableListItemContentState();
+
+
+
 }
 
 
 class _ReorderableListItemContentState extends State<ReorderableListItemContent> {
 
+
+  var idx;
+  var content;
+
+  @override
+  void initState() {
+
+    idx = widget.index;
+    content = widget.content;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +51,44 @@ class _ReorderableListItemContentState extends State<ReorderableListItemContent>
       margin: EdgeInsets.all(10),
 
       child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.only(left:16.0),
           child: Row(
             children: [
-              FlutterLogo(),
               Container(
-                width: 300,
-                child: Text("aaaaaaaaaaaaaaaaaaaaaaa\na\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
+                //width: 50.0,
+                //height: 50.0,
+                padding: const EdgeInsets.all(20.0),//I used some padding without fixed width and height
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,// You can use like this way or like the below line
+                  //borderRadius: new BorderRadius.circular(30.0),
+                  color: Colors.green,
+                ),
+                child: new Text((idx+1).toString(), style: new TextStyle(color: Colors.white, fontSize: 20.0)),// You can add a Icon instead of text also, like below.
+                //child: new Icon(Icons.arrow_forward, size: 50.0, color: Colors.black38)),
+              ),
+              Container(
+                width: 280,
+                child: TextFormField(
+                  initialValue: (content != null) || (content != "") ? content : null,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  minLines: 2,
+                  decoration: const InputDecoration(
+                    hintText: 'Mix everything in a big bowl!',
+                  ),
+                  onChanged: (String value) {
+                    setState(() {
+                      widget.content = value;
+                      widget.notifyParent(idx, value);
+                    });
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                )
               ),
               Handle(
                 delay: const Duration(milliseconds: 100),
@@ -78,10 +126,10 @@ class _ReorderableListItemContentState extends State<ReorderableListItemContent>
 
 
 
-Reorderable reorderableListItem(context, item, itemAnimation) {
+Reorderable reorderableListItem(context, item, itemAnimation, index, func, valueItem) {
   return Reorderable(
     // Each item must have an unique key.
-    key: ValueKey(item),
+    key: ValueKey(valueItem),
     // The animation of the Reorderable builder can be used to
     // change to appearance of the item between dragged and normal
     // state. For example to add elevation when the item is being dragged.
@@ -97,7 +145,7 @@ Reorderable reorderableListItem(context, item, itemAnimation) {
         sizeFraction: 0.7,
         curve: Curves.easeInOut,
         animation: itemAnimation,
-        child: ReorderableListItemContent(),
+        child: new ReorderableListItemContent(func, index, item),
       );
     },
   );
