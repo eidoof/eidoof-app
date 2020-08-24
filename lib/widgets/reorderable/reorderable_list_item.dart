@@ -55,18 +55,24 @@ class _ReorderableListItemContentState extends State<ReorderableListItemContent>
           child: Row(
             children: [
               Container(
-                //width: 50.0,
-                //height: 50.0,
-                padding: const EdgeInsets.all(20.0),//I used some padding without fixed width and height
+                width: 50.0,
+                height: 50.0,
+                padding: const EdgeInsets.all(15.0),//I used some padding without fixed width and height
                 decoration: new BoxDecoration(
                   shape: BoxShape.circle,// You can use like this way or like the below line
                   //borderRadius: new BorderRadius.circular(30.0),
                   color: Colors.green,
                 ),
-                child: new Text((idx+1).toString(), style: new TextStyle(color: Colors.white, fontSize: 20.0)),// You can add a Icon instead of text also, like below.
+                child: new Text(
+                    (idx+1).toString(),
+                    textAlign: TextAlign.center,
+                    style: new TextStyle(color: Colors.white, fontSize: 15.0)),// You can add a Icon instead of text also, like below.
                 //child: new Icon(Icons.arrow_forward, size: 50.0, color: Colors.black38)),
               ),
               Container(
+                margin: EdgeInsets.only(
+                  left:5,
+                ),
                 width: 280,
                 child: TextFormField(
                   initialValue: (content != null) || (content != "") ? content : null,

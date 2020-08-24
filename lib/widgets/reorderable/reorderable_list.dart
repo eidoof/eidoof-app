@@ -35,7 +35,7 @@ class _ReorderableList extends State<ReorderableList> {
     _rows = List<Widget>();
     _steps = List<String>();
 
-    for (max_idx = 0; max_idx < 6; max_idx++) {
+    for (max_idx = 0; max_idx < 2; max_idx++) {
       var elem = new Text("");
       _rows.add(elem);
       _steps.add("");
@@ -70,6 +70,17 @@ class _ReorderableList extends State<ReorderableList> {
     ScrollController _scrollController = PrimaryScrollController.of(context) ??
         ScrollController();
 
+
+    for (var i=0; i<_rows.length; i++) {
+      if(_steps[i] == "button") {
+        _steps.removeAt(i);
+        _rows.removeAt(i);
+      }
+    }
+
+    _rows.add(new Text("button"));
+    _steps.add("button");
+
     return ImplicitlyAnimatedReorderableList<Widget>(
       items: _rows,
       onReorderStarted: (item, from) {
@@ -93,7 +104,31 @@ class _ReorderableList extends State<ReorderableList> {
       },
       itemBuilder: (context, itemAnimation, item, index) {
         // Each item must be wrapped in a Reorderable widget.
-        return reorderableListItem(context, _steps[index], itemAnimation, index, updateText, item);
+        if (_steps[index] == "button") {
+         return Reorderable(
+             key: ValueKey(_steps[index]),
+             child: Padding(
+               padding: EdgeInsets.only(left: 30.0, right: 30.0),
+               child: RaisedButton(
+                 textColor: Colors.white,
+                 color: Colors.green,
+                 child: Text("+ Add Step"),
+                 onPressed: () {
+                   setState(() {
+                     _rows.add(new Text(""));
+                     _steps.add("");
+                   });
+                 },
+                 shape: new RoundedRectangleBorder(
+                   borderRadius: new BorderRadius.circular(30.0),
+                 ),
+               ),
+             )
+          );
+        }
+        else {
+          return reorderableListItem(context, _steps[index], itemAnimation, index, updateText, item);
+        }
       },
       // Since version 0.2.0 you can also display a widget
       // before the reorderable items...
