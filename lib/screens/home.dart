@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generateBar(),
+      appBar: generateBar(context),
       body: currentPage,
       drawer: SideMenu(callback),
     );

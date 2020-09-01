@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:eidoof/widgets/search.dart';
 
-AppBar generateBar() {
+AppBar generateBar(context) {
   return AppBar(
     backgroundColor: Colors.green,
     title: Center(child: Text("eidoof")),
     actions: [
       Padding(
         padding: EdgeInsets.all(16.0),
-        child: Icon(Icons.search),
+        child: IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            popupSearch(context);
+          },
+        ),
+
       ),
     ],
   );
