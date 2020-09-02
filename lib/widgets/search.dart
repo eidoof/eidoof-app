@@ -26,15 +26,40 @@ class SearchPopup extends StatefulWidget {
 class _SearchPopupState extends State<SearchPopup> {
 
 
-
   var keyword = "";
-  var dropdownValue = "";
-  var teamName = "";
+
+  var sliderValues = new Map();
+  var dropdownValues = new Map();
 
 
-  DropdownButton<String> filterDropdown(List<String> choices) {
-    return DropdownButton<String>(
-      value: dropdownValue,
+
+  @override
+  void initState() {
+    super.initState();
+    sliderValues["price"] = 0;
+  }
+
+  Slider customSlider(String key) {
+
+
+    return Slider(
+      value: sliderValues[key],
+      min: 0.01,
+      max: 100,
+      divisions: 5,
+      label: sliderValues[key].round().toString() + ((sliderValues[key] == 100) ? ("+ \$") : (" \$")),
+      onChanged: (double value) {
+        setState(() {
+          sliderValues[key] = value;
+        });
+      },
+    );
+  }
+
+  DropdownButton<String> filterDropdown(String title, String key, List<String> choices) {
+    return new DropdownButton<String>(
+      value: dropdownValues[key],
+      hint: Text(title),
       icon: Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 16,
@@ -47,7 +72,7 @@ class _SearchPopupState extends State<SearchPopup> {
       ),
       onChanged: (String newValue) {
         setState(() {
-          dropdownValue = newValue;
+          dropdownValues[key] = newValue;
         });
       },
       items: choices
@@ -57,42 +82,54 @@ class _SearchPopupState extends State<SearchPopup> {
           child: Text(value),
         );
       }).toList(),
-    )
-  } 
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: Text('Enter current team'),
-        content: new Row(
-          children: <Widget>[
-            new Expanded(
-            child: new TextField(
-              autofocus: true,
-              decoration: new InputDecoration(
-                  labelText: 'Search',
-                  hintText: 'eg. Pasta'),
-              onChanged: (value) {
-                keyword = value;
-              },
-              onSubmitted: (value) {
-                // TODO: send search request, load results screen.
-              },
-            )),
-            new Expanded(
-              child: filterDropdown(["a", "b", "c"])
-            ),
-          ],
+      title: Text('Search'),
+      content: new Column(
+        children: <Widget>[
+          new Expanded(
+              child: new TextField(
+                autofocus: true,
+                decoration: new InputDecoration(
+                    labelText: 'keywords',
+                    hintText: 'eg. Pasta'),
+                onChanged: (value) {
+                  keyword = value;
+                },
+                onSubmitted: (value) {
+                  // TODO: send search request, load results screen.
+                },
+              )),
+          new Expanded(
+            child:  new Row(
+              children: [
+                filterDropdown("Minimum Rating", "ratings", ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"]),
+                filterDropdown("Order", "order", ["Desc", "Asc"]),
+              ],
+            )
+          ),
+          new Expanded(
+            child: filterDropdown("Spicyness", "spice", ["Spicy", "Non-Spicy"]),
+          ),
+          new Expanded(
+            // TODO: Potential useful library: https://flutterawesome.com/an-extension-of-the-flutter-material-slider/
+            child: customSlider("price"),
+          )
+        ],
 
-  ),
-  actions: <Widget>[
-  FlatButton(
-  child: Text('Ok'),
-  onPressed: () {
-  Navigator.of(context).pop(teamName);
-  },
-  ),
-  ],
-  );
-
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('Ok'),
+          onPressed: () {
+            Navigator.of(context).pop("REEEEE");
+          },
+        ),
+      ],
+    );
+  }
 }
